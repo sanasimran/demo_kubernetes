@@ -36,6 +36,7 @@ function App() {
                     <Route path="/" exact component={Home}/>
                     <Route path="/login" component={() => <Login setName={setName}/>}/>
                     <Route path="/register" component={Register}/>
+                    <Route path="/logout" component={Home}/>
                 </main>
             </BrowserRouter>
         </div>
