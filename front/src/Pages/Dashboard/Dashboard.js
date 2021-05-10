@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, Route } from "react-router-dom";
 
+
 import config from "../../config";
 
 function Iframe(props) {
@@ -17,7 +18,8 @@ const Dashboard = () => {
   
   const demos = {
     searchRecipies:
-      '<iframe width="1650px" height="3000px" scrolling="yes" frameborder="yes" src="http://localhost:3002/"></iframe>',
+      '<iframe width="1650px" height="1000px" scrolling="yes" frameborder="yes" src='+config.searchUrl+'></iframe>',
+      // '<iframe height="100%": width="100%" scrolling="yes" frameborder="yes" src='+config.searchUrl+'></iframe>',
   };
 
   const logout = () => {
@@ -86,7 +88,7 @@ const Dashboard = () => {
       <div className="px-3">
         <h1>{dashboard?.title}</h1>
         <p>{dashboard?.content}</p>
-        <Iframe iframe={demos["searchRecipies"]}innerHeight="100%" innerWidth="100%"/>
+        <Iframe iframe={demos["searchRecipies"]}/>
       </div>
     </>
   );

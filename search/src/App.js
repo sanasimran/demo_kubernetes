@@ -22,7 +22,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title"> FOODIE Recipe Search</h1>
-          <button className="button">Log Out</button>
         </header>
         <form onSubmit={this.getRecipe.bind(this)} style={{ marginBottom:"2rem" }}>
           <input className="form__input" type="text" name="recipeName" />
