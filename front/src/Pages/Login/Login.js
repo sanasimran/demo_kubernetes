@@ -35,7 +35,7 @@ const Login = () => {
           setTimeout(() => {
             localStorage.setItem("token", data.token);
             history.push("/dashboard");
-          }, 3000);
+          }, 1000);
 
         !error && e.target.reset();
       });

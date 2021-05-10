@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Route } from "react-router-dom";
 
 import config from "../../config";
+
+function Iframe(props) {
+  return (
+    <div
+      dangerouslySetInnerHTML={{ __html: props.iframe ? props.iframe : "" }}
+    />
+  );
+}
 
 const Dashboard = () => {
   const [dashboard, setDashboard] = useState(null);
   const history = useHistory();
+  
+  const demos = {
+    searchRecipies:
+      '<iframe width="1650px" height="3000px" scrolling="yes" frameborder="yes" src="http://localhost:3002/"></iframe>',
+  };
 
   const logout = () => {
     /* eslint-disable */
@@ -26,16 +39,19 @@ const Dashboard = () => {
       },
     })
       .then((res) => res.json())
-      .then(({ error, data }) =>
+      .then(({ error, data }) => {
+        data.title="Search your recipes below!"
+        data.content="."
+        console.log(data)
         error ? history.push("/login") : setDashboard(data)
-      );
+      });
   }, [history]);
 
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="/">
-          Application to handle Authentication using ReactJS
+          FOODIE RECIPE APP
         </a>
         <button
           className="navbar-toggler"
@@ -51,9 +67,9 @@ const Dashboard = () => {
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="/dashboard">
+              {/* <a className="nav-link" href="/dashboard">
                 Dashboard <span className="sr-only">(current)</span>
-              </a>
+              </a> */}
             </li>
             <li className="nav-item">
               <span
@@ -70,6 +86,7 @@ const Dashboard = () => {
       <div className="px-3">
         <h1>{dashboard?.title}</h1>
         <p>{dashboard?.content}</p>
+        <Iframe iframe={demos["searchRecipies"]}innerHeight="100%" innerWidth="100%"/>
       </div>
     </>
   );
