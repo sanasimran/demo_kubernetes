@@ -1,0 +1,13 @@
+version: '3'
+services: 
+    web:
+        image: backendimage
+        build: .
+        command: npm start
+        ports:
+            - "8000:8000"
+        
+    mongo:
+        image: "mongo"
+        ports:
+            - "27017:27017"
