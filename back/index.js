@@ -31,4 +31,4 @@ app.use("/api/dashboard", verifyToken, dashboardRoutes);
 
 
 
-app.listen(3001, () => console.log("server is running..."));
+app.listen(8000, () => console.log("server is running..."));
