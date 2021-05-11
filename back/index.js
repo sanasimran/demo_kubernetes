@@ -1,14 +1,16 @@
+require('dotenv').config();
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-dotenv.config();
+dotenv.config({ path: '/.env' });
 app.use(cors());
 
 // connect to db
-mongoose.connect(
+const{error} = mongoose.connect(
   process.env.DB_CONNECT,
   {
     useNewUrlParser: true,
@@ -16,6 +18,8 @@ mongoose.connect(
   },
   () => console.log("connected to db")
 );
+
+if (error) console.error("Error connecting to the DB :" + JSON.stringify(error));
 
 // import routes
 const authRoutes = require("./routes/auth");

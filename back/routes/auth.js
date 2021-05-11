@@ -10,6 +10,7 @@ const { registerValidation, loginValidation } = require("../validation");
 // register route
 router.post("/register", async (req, res) => {
   // validate the user
+  console.log("registring user :: " + JSON.stringify(req.body) + " :: " + JSON.stringify(req.headers));
   const { error } = registerValidation(req.body);
 
   // throw validation errors
@@ -18,8 +19,10 @@ router.post("/register", async (req, res) => {
   const isEmailExist = await User.findOne({ email: req.body.email });
 
   // throw error when email already registered
-  if (isEmailExist)
+  if (isEmailExist) {
+    console.log("User already exists with the email : " + req.body.email);
     return res.status(400).json({ error: "Email already exists" });
+  }
 
   // hash the password
   const salt = await bcrypt.genSalt(10);
@@ -30,11 +33,14 @@ router.post("/register", async (req, res) => {
     email: req.body.email,
     password,
   });
+  console.log("Saving user " + JSON.stringify(user));
 
   try {
     const savedUser = await user.save();
     res.json({ error: null, data: { userId: savedUser._id } });
+    console.log("User saved successfully...");
   } catch (error) {
+    console.log(" Error in saving the user..");
     res.status(400).json({ error });
   }
 });
@@ -42,6 +48,7 @@ router.post("/register", async (req, res) => {
 // login route
 router.post("/login", async (req, res) => {
   // validate the user
+  console.log("Logging in.. ::" + JSON.stringify(req.stringify));
   const { error } = loginValidation(req.body);
 
   // throw validation errors
@@ -52,11 +59,13 @@ router.post("/login", async (req, res) => {
   // throw error when email is wrong
   if (!user) return res.status(400).json({ error: "Email is wrong" });
 
+  console.log("Found the requested user: " + user.name);
   // check for password correctness
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword)
     return res.status(400).json({ error: "Password is wrong" });
 
+  console.log("generationg user token");
   // create token
   const token = jwt.sign(
     // payload data
