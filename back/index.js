@@ -10,16 +10,43 @@ dotenv.config({ path: '/.env' });
 app.use(cors());
 
 // connect to db
-const{error} = mongoose.connect(
+mongoose.connect(
   process.env.DB_CONNECT,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-  () => console.log("connected to db")
+  function(err) {
+
+    if (err) {
+      console.log("Error is : " + JSON.stringify(err))
+      throw err;
+    }
+  }
 );
 
-if (error) console.error("Error connecting to the DB :" + JSON.stringify(error));
+mongoose.connection.on('connected', function () {
+  console.log('Mongoose default connection open to ' + process.env.DB_CONNECT);
+}); 
+
+// If the connection throws an error
+mongoose.connection.on('error',function (err) { 
+  console.log('Mongoose default connection error: ' + err);
+}); 
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () { 
+  console.log('Mongoose default connection disconnected'); 
+});
+
+// If the Node process ends, close the Mongoose connection 
+process.on('SIGINT', function() {   
+  mongoose.connection.close(function () { 
+    console.log('Mongoose default connection disconnected through app termination'); 
+    process.exit(0); 
+  }); 
+}); 
+
 
 // import routes
 const authRoutes = require("./routes/auth");
