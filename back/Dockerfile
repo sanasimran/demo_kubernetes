@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT [ "npm", "start" ]
+CMD [ "npm", "start" ]
