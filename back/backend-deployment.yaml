@@ -21,7 +21,7 @@ spec:
         ports: # defines array of ports this container will communicate through
         - containerPort: 8000 # the port allocated to the service as per dockerfile
       restartPolicy: Always #specifies that k8s should always restart the deployment on any specifcation change
---- # separates the yaml file
+--- 
 kind: Service # a kind of resource in k8s
 apiVersion: v1 # "apps/v1" is the current API version being supported in kubernetes version v1.20.2
 metadata: 
