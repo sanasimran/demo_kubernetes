@@ -1,9 +1,9 @@
-kind: Deployment
-apiVersion: apps/v1
+kind: Deployment # "deployment" is a type of resource in kubernetes
+apiVersion: apps/v1 # "apps/v1" is the current API version being supported in kubernetes version v1.20.2
 metadata:
-  name: backend
+  name: backend # name of the "deployment"
 spec:
-  replicas: 1
+  replicas: 1 # number of children(pods), this deployment wants to create in the cluster using k8s
   selector:
     matchLabels:
       app: backend
@@ -11,27 +11,27 @@ spec:
     metadata:
       labels:
         app: backend
-    spec:
-      containers:
-      - name: backend
-        image: docker.io/ksanas/foodie-backend:v1
-        imagePullPolicy: Always
-        stdin: true
-        tty: true
-        ports:
-        - containerPort: 8000
-      restartPolicy: Always
----
-kind: Service
-apiVersion: v1
-metadata:
+    spec: # defines the specifications of a "pod"
+      containers: # defines an "array of containers" run in each pod
+      - name: backend  # name of the container
+        image: docker.io/ksanas/foodie-backend:v1 # fully qualified name of the image
+        imagePullPolicy: Always # tells k8s to pull-down/update the image everytime a deployment specification is updated
+        stdin: true # standard input is true
+        tty: true # terminal is active
+        ports: # defines array of ports this container will communicate through
+        - containerPort: 8000 # the port allocated to the service as per dockerfile
+      restartPolicy: Always #specifies that k8s should always restart the deployment on any specifcation change
+--- # separates the yaml file
+kind: Service # a kind of resource in k8s
+apiVersion: v1 # "apps/v1" is the current API version being supported in kubernetes version v1.20.2
+metadata: 
   name: backend
 spec:
-  type: NodePort
-  ports:
+  type: NodePort # nodeport is one of the 3 types of port exposure present in k8s
+  ports: # defines an array of ports to be mapped in this service
     - port: 8000
       targetPort: 8000
       protocol: TCP
-      nodePort: 32000
-  selector:
-    app: backend  
+      nodePort: 32000 
+  selector: # binds this service description to the deployment specified above
+    app: backend  # This line should match deployment.selector.matchlabels and deployment.template.metadata.labels
