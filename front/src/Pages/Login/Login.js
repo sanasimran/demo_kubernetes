@@ -17,7 +17,7 @@ const Login = () => {
       data: "Login is in progress...",
       type: "alert-warning",
     });
-    fetch(`${config.baseUrl}/user/login`, {
+    fetch(`${config.baseUrl}/api/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

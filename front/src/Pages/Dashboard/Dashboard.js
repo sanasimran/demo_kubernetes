@@ -33,7 +33,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetch(`${config.baseUrl}/dashboard`, {
+    fetch(`${config.baseUrl}/api/dashboard`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
